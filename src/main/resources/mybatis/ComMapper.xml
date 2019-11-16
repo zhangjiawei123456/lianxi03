@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangjiawei.mapper.ComMapper">
+	<select id="getList" resultType="com.zhangjiawei.bean.Company">
+		select a.*,GROUP_CONCAT(c.tname) tname from `biz-company` a left join center b on a.id=b.id left join `biz-type` c on c.tid=b.tid
+		<where>
+			<if test="vo==1">
+				and a.capital >=1 and a.capital &lt;=2000000
+			</if>
+			<if test="vo==2">
+				and a.capital >=2000001 and a.capital &lt;=10000000
+			</if>
+			<if test="vo==3">
+				and a.capital >=10000000
+			</if>
+			<if test="vo2==1">
+				and c.tid=1
+			</if>
+			<if test="vo2==2"  >
+				and c.tid=2
+			</if>
+			<if test="vo2==3">
+				and c.tid=3
+			</if>
+		</where>
+		 GROUP BY a.id
+	</select>
+</mapper>
